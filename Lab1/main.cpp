@@ -16,10 +16,10 @@ static SerDe Serde;
 using namespace std;
 
 void StartInfo();
-Dek* Boot();
-void ViewDB(Dek* dek);
+Dek<Interface>* Boot();
+void ViewDB(Dek<Interface>* dek);
 Interface* CreateJournal();
-Dek* LoadJournal(const wchar_t file_name[]);
+Dek<Interface>* LoadJournal(const wchar_t file_name[]);
 bool WriteBufToFile(const wchar_t file_name[], const wchar_t buf[]);
 
 template <typename TYPE>
@@ -33,7 +33,7 @@ int wmain() {
 	setlocale(LC_ALL, "");
 
 	StartInfo();
-	Dek* dek = Boot();
+	Dek<Interface>* dek = Boot();
 	ViewDB(dek);
 
 	wchar_t command[STDBUF_SIZE] = L" ";
@@ -199,9 +199,9 @@ bool WriteBufToFile(const wchar_t file_name[], const wchar_t buf[])
 	return true;
 }
 
-Dek* LoadJournal(const wchar_t file_name[])
+Dek<Interface>* LoadJournal(const wchar_t file_name[])
 {
-	Dek* dek = new Dek;	// новый список журналов
+	Dek<Interface>* dek = new Dek<Interface>;	// новый список журналов
 	wchar_t buf[BUFSIZE] = L"";
 
 	HANDLE file = CreateFile(file_name,
@@ -231,7 +231,7 @@ Dek* LoadJournal(const wchar_t file_name[])
 	return dek;
 }
 
-Dek* Boot()
+Dek<Interface>* Boot()
 {
 	wcout << L"Load data? [y/n] \n";
 	wchar_t answer[100] = L"";
@@ -248,7 +248,7 @@ Dek* Boot()
 
 	wcout << L"\n \t \t \t Creating new journals \n";
 
-	Dek* dek = new Dek;
+	Dek<Interface>* dek = new Dek<Interface>;
 	wchar_t jrl_type = L' ';
 	Interface* new_jrl = NULL;
 
@@ -267,7 +267,7 @@ Dek* Boot()
 	return dek;
 }
 
-void ViewDB(Dek* dek)
+void ViewDB(Dek<Interface>* dek)
 {
 	wcout << L"\n \t \t \t List of journals \n";
 	for (int i = 0; i < dek->GetCnt(); i++)

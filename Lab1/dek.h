@@ -9,17 +9,18 @@
 #include "Json.h"
 
 
+template <typename TYPE>
 class Dek
 {
 private:
 	class element
 	{
 	public:
-		Interface* journal;
+		TYPE* obj;
 		element* next;
 
-		element(Interface* journal_, element* next_) :
-			journal(journal_),
+		element(TYPE* obj_, element* next_) :
+			obj(obj_),
 			next(next_)
 		{}
 	};
@@ -64,7 +65,7 @@ public:
 
 	Interface* GetFirst()
 	{
-		return first != NULL ? first->journal : NULL;
+		return first != NULL ? first->obj : NULL;
 	}
 
 	// для перебора в цикле, после любых операций изменения сбрасывается к 1 элементу
@@ -73,20 +74,20 @@ public:
 		if (this->current != NULL) this->current = this->current->next;
 		else this->current = this->first;
 
-		return this->current->journal;
+		return this->current->obj;
 	}
 
-	void PushFirst(Interface* journal)
+	void PushFirst(TYPE* obj)
 	{
 		if (this->cnt != 0)
 		{
-			element* new_first = new element(journal, this->first);
+			element* new_first = new element(obj, this->first);
 			this->last->next = new_first;
 			this->first = new_first;
 		}
 		else
 		{
-			element* new_first = new element(journal, NULL);
+			element* new_first = new element(obj, NULL);
 			new_first->next = new_first;
 
 			this->last = new_first;
@@ -120,13 +121,13 @@ public:
 		last = current;
 	}
 
-	Interface* GetEl(int index)
+	TYPE* GetEl(int index)
 	{
 		for (int i = 0; i < index; i++)
 		{
 			GetNext();
 		}
-		return this->current->journal;
+		return this->current->obj;
 	}
 
 };

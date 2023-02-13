@@ -12,7 +12,7 @@
 static class SerDe
 {
 public:
-	void DeserializeToDek(wchar_t* buf, Dek* dek)
+	void DeserializeToDek(wchar_t* buf, Dek<Interface>* dek)
 	{
 		int count_ent = 0;
 		std::wstring* entitys = Json::GetJsonEntitys(buf, count_ent);
@@ -50,7 +50,7 @@ public:
 		delete[] entitys;
 	}
 
-	void SerializeFromDek(wchar_t* buf, Dek* dek)
+	void SerializeFromDek(wchar_t* buf, Dek<Interface>* dek)
 	{
 		for (int i = 0; i < dek->GetCnt(); i++)
 		{
