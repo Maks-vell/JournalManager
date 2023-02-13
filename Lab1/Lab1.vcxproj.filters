@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков\enum">
+      <UniqueIdentifier>{090a3cd9-753e-41a5-9a9a-dffb71a0e419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\entity">
+      <UniqueIdentifier>{0d101479-df03-4243-a0f8-6b2451d21fb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\enum">
+      <UniqueIdentifier>{df8337fa-b75f-4b45-bd3d-e987606c4ac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\entity">
+      <UniqueIdentifier>{6dee718c-b281-42c2-9a6c-a1bcd64fd2d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\lib">
+      <UniqueIdentifier>{a8f90aa8-6806-4b2f-9ec7-679411ee166c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="theme_enum.cpp">
+      <Filter>Файлы ресурсов\enum</Filter>
+    </ClCompile>
+    <ClCompile Include="journal.cpp">
+      <Filter>Файлы ресурсов\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="limited_journal.cpp">
+      <Filter>Файлы ресурсов\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="psu_journal.cpp">
+      <Filter>Файлы ресурсов\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="special_journal.cpp">
+      <Filter>Файлы ресурсов\entity</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="theme_enum.h">
+      <Filter>Файлы заголовков\enum</Filter>
+    </ClInclude>
+    <ClInclude Include="journal.h">
+      <Filter>Файлы заголовков\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="limited_journal.h">
+      <Filter>Файлы заголовков\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="special_journal.h">
+      <Filter>Файлы заголовков\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="psu_journal.h">
+      <Filter>Файлы заголовков\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="interface.h">
+      <Filter>Файлы заголовков\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Json.h">
+      <Filter>Файлы заголовков\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Serde.h">
+      <Filter>Файлы заголовков\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="dek.h">
+      <Filter>Файлы заголовков\lib</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
