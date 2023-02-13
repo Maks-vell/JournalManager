@@ -8,7 +8,7 @@
 #include "stdio.h"
 #include "Json.h"
 
-template <typename TYPE>
+
 class Dek
 {
 private:
