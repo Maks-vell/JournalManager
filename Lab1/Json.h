@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <windows.h>
 #include <string>
 
 namespace Json
@@ -100,5 +101,37 @@ namespace Json
 			return 1;
 		}
 		return 0;
+	}
+
+
+	bool WriteBufToFile(const wchar_t file_name[], const wchar_t buf[])
+	{
+		HANDLE file = CreateFile(L"User.txt",
+			GENERIC_WRITE,
+			FILE_SHARE_WRITE,
+			NULL,
+			CREATE_ALWAYS,
+			FILE_ATTRIBUTE_NORMAL,
+			NULL);
+		if (file == NULL)
+		{
+			wprintf(L"ERROR: Open file failed with %d.\n", GetLastError());
+			return false;
+		}
+		else
+		{
+			DWORD written_bytes;
+			BOOL is_write = WriteFile(file, buf,
+				wcslen(buf) * sizeof(wchar_t), &written_bytes, NULL);
+			if (!is_write)
+			{
+				wprintf(L"ERROR: Writing file failed with %d.\n", GetLastError());
+				return false;
+			}
+
+			CloseHandle(file);
+		}
+
+		return true;
 	}
 }

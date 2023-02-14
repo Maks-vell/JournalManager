@@ -7,12 +7,13 @@
 #include "limited_journal.h"
 #include "psu_journal.h"
 #include "special_journal.h"
+#include "User.h"
 
-
-static class SerDe
+template <typename TYPE>
+class SerDe
 {
 public:
-	void DeserializeToDek(wchar_t* buf, Dek<Interface>* dek)
+	void JournalDeserializeToDek(wchar_t* buf, Dek<TYPE>* dek)
 	{
 		int count_ent = 0;
 		std::wstring* entitys = Json::GetJsonEntitys(buf, count_ent);
@@ -50,7 +51,25 @@ public:
 		delete[] entitys;
 	}
 
-	void SerializeFromDek(wchar_t* buf, Dek<Interface>* dek)
+	void UserDeserializeToDek(wchar_t* buf, Dek<TYPE>* dek)
+	{
+		int count_ent = 0;
+		std::wstring* entitys = Json::GetJsonEntitys(buf, count_ent);
+
+		for (int i = 0; i < count_ent; i++)
+		{
+			std::wstring tag = Json::GetTag(entitys[i]);
+
+			User* user = new User;
+			user->Deserialize(entitys[i].c_str());
+			dek->PushFirst(user);
+
+		}
+
+		delete[] entitys;
+	}
+
+	void SerializeFromDek(wchar_t* buf, Dek<TYPE>* dek)
 	{
 		for (int i = 0; i < dek->GetCnt(); i++)
 		{

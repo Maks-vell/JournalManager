@@ -28,6 +28,9 @@
     <Filter Include="Файлы заголовков\lib">
       <UniqueIdentifier>{a8f90aa8-6806-4b2f-9ec7-679411ee166c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\Service">
+      <UniqueIdentifier>{170d9b3a-aa97-4f07-ad13-a2e1cde55b62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="special_journal.cpp">
       <Filter>Файлы ресурсов\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Файлы ресурсов\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Service.h">
+      <Filter>Файлы заголовков\Service</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="dek.h">
       <Filter>Файлы заголовков\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="AuthService.h">
+      <Filter>Файлы заголовков\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Файлы заголовков\entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -63,13 +63,13 @@ public:
 		return this->cnt;
 	}
 
-	Interface* GetFirst()
+	TYPE* GetFirst()
 	{
 		return first != NULL ? first->obj : NULL;
 	}
 
 	// для перебора в цикле, после любых операций изменения сбрасывается к 1 элементу
-	Interface* GetNext()
+	TYPE* GetNext()
 	{
 		if (this->current != NULL) this->current = this->current->next;
 		else this->current = this->first;

@@ -2,6 +2,8 @@
 #include <fstream>
 #include <windows.h>
 #include <locale>
+
+#include "AuthService.h"
 #include "Serde.h"
 
 #include "limited_journal.h"
@@ -9,18 +11,22 @@
 #include "special_journal.h"
 #include "dek.h"
 
+static AuthService authService;
+
 #define SAVING_FILE L"save.txt"
 #define BUFSIZE 1000
-static SerDe Serde;
+
+SerDe<Interface> serde;
 
 using namespace std;
 
 void StartInfo();
-Dek<Interface>* Boot();
+void ServiceBoot();
+Dek<Interface>* CreateDek();
 void ViewDB(Dek<Interface>* dek);
 Interface* CreateJournal();
 Dek<Interface>* LoadJournal(const wchar_t file_name[]);
-bool WriteBufToFile(const wchar_t file_name[], const wchar_t buf[]);
+void Auth();
 
 template <typename TYPE>
 bool comp_more(TYPE a, TYPE b);
@@ -31,9 +37,12 @@ bool comp_less(TYPE a, TYPE b);
 
 int wmain() {
 	setlocale(LC_ALL, "");
+	ServiceBoot();
+
+	Auth();
 
 	StartInfo();
-	Dek<Interface>* dek = Boot();
+	Dek<Interface>* dek = CreateDek();
 	ViewDB(dek);
 
 	wchar_t command[STDBUF_SIZE] = L" ";
@@ -76,8 +85,8 @@ int wmain() {
 		else if (wcscmp(command, L"save") == 0)
 		{
 			wchar_t buf[1000] = L"";
-			Serde.SerializeFromDek(buf, dek);
-			is_succes = WriteBufToFile(SAVING_FILE, buf);
+			serde.SerializeFromDek(buf, dek);
+			is_succes = Json::WriteBufToFile(SAVING_FILE, buf);
 		}
 
 		else if (wcscmp(command, L"load") == 0)
@@ -99,34 +108,34 @@ int wmain() {
 		else if (wcscmp(command, L"more") == 0)
 		{
 			int i;
-			cout << "Enter the number of first journal:";
+			wcout << L"Enter the number of first journal:";
 			cin >> i;
 			Journal* left = (Journal*)dek->GetEl(i);
-			cout << "Enter the number of first journal:";
-			cin >> i;
+			wcout << L"Enter the number of first journal:";
+			wcin >> i;
 			Journal* right = (Journal*)dek->GetEl(i);
 
 			if (comp_more(left, right))
 			{
-				cout << "Circulation first journal more" << endl;
+				wcout << L"Circulation first journal more" << endl;
 			}
-			cout << "Circulation first journal less" << endl;
+			wcout << L"Circulation first journal less" << endl;
 		}
 
 		else if (wcscmp(command, L"less") == 0)
 		{
 			int i;
-			cout << "Enter the number of first journal:";
-			cin >> i;
+			wcout << L"Enter the number of first journal:";
+			wcin >> i;
 			Journal* left = (Journal*)dek->GetEl(i);
-			cout << "Enter the number of second journal:";
-			cin >> i;
+			wcout << L"Enter the number of second journal:";
+			wcin >> i;
 			Journal* right = (Journal*)dek->GetEl(i);
 			if (comp_less(left, right))
 			{
-				cout << "Circulation first journal less" << endl;
+				wcout << L"Circulation first journal less" << endl;
 			}
-			cout << "Circulation first journal more" << endl;
+			wcout << L"Circulation first journal more" << endl;
 		}
 
 		else if (wcscmp(command, L"exit") == 0 || wcscmp(command, L"e") == 0)
@@ -154,6 +163,53 @@ int wmain() {
 	return 0;
 }
 
+void ServiceBoot()
+{
+	authService.Boot();
+}
+
+void Auth()
+{
+	wcout << L"\t \t \t ***Authorization***\n\n";
+
+	wchar_t answer[STDBUF_SIZE] = L" ";
+	while (true)
+	{
+		wcout << L"Have you an account? (y/n) \n";
+		wcin >> answer;
+
+		wchar_t name[STDBUF_SIZE] = L" " ;
+		wchar_t pass[STDBUF_SIZE] = L" " ;
+		if (answer != L"y")
+		{
+			wcout << L"Registration \n";
+			wcout << L"Enter the name \n";
+			wcin >> name;
+			wcout << L"Enter the password \n";
+			wcin >> pass;
+			if (!authService.SignIn(name, pass))
+			{
+				wcout << L"Alredy exists \n";
+			}
+		}
+
+		wcout << L"Log in \n";
+		wcout << L"Enter the name \n";
+		wcin >> name;
+		wcout << L"Enter the password \n";
+		wcin >> pass;
+		if(!authService.LogIn(name, pass))
+		{
+			wcout << L"Invalid login or password \n";
+		}
+		else
+		{
+			break;
+		}
+	}
+
+}
+
 void StartInfo()
 {
 	wcout << L"\t \t \t ***Journal manager***\n\n"
@@ -166,37 +222,6 @@ void StartInfo()
 		<< L"save - save journals \n"
 		<< L"load - load saved journals (all current journals will be removed) \n"
 		<< L"e , exit - exit, data will be deleted \n \n";
-}
-
-bool WriteBufToFile(const wchar_t file_name[], const wchar_t buf[])
-{
-	HANDLE file = CreateFile(file_name,
-		GENERIC_WRITE,
-		FILE_SHARE_WRITE,
-		NULL,
-		CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-	if (file == NULL)
-	{
-		wprintf(L"ERROR: Open file failed with %d.\n", GetLastError());
-		return false;
-	}
-	else
-	{
-		DWORD written_bytes;
-		BOOL is_write = WriteFile(file, buf,
-			wcslen(buf) * sizeof(wchar_t), &written_bytes, NULL);
-		if (!is_write)
-		{
-			wprintf(L"ERROR: Writing file failed with %d.\n", GetLastError());
-			return false;
-		}
-
-		CloseHandle(file);
-	}
-
-	return true;
 }
 
 Dek<Interface>* LoadJournal(const wchar_t file_name[])
@@ -225,13 +250,13 @@ Dek<Interface>* LoadJournal(const wchar_t file_name[])
 		&bytes_read,
 		NULL);
 
-	Serde.DeserializeToDek(buf, dek);
+	serde.JournalDeserializeToDek(buf, dek);
 
 	CloseHandle(file);
 	return dek;
 }
 
-Dek<Interface>* Boot()
+Dek<Interface>* CreateDek()
 {
 	wcout << L"Load data? [y/n] \n";
 	wchar_t answer[100] = L"";
