@@ -3,27 +3,27 @@
 #include <ctime>
 #include <iostream>
 
-#include "interface.h"
-#include "theme_enum.h"
+#include "Entity.h"
+#include "ThemeEnum.h"
 #include "Json.h"
 
 #define STDBUF_SIZE 100
 
-class Journal : public Interface
+class Journal : public Entity
 {
 public:
 	int circulation;
 
 protected:
 	wchar_t* name;
-	theme_enum::Theme theme;
+	ThemeEnum::Theme theme;
 	int release_year;
 	wchar_t* autor;
 
 
 public:
 	Journal(const wchar_t autor_[STDBUF_SIZE] = NULL, const wchar_t name_[STDBUF_SIZE] = NULL,
-		theme_enum::Theme theme_ = theme_enum::Theme::OTHER, int circulation_ = 0, int release_year_ = -1);
+		ThemeEnum::Theme theme_ = ThemeEnum::Theme::OTHER, int circulation_ = 0, int release_year_ = -1);
 
 	Journal(Journal& journal_copy);
 
@@ -37,8 +37,8 @@ public:
 
 	void Deserialize(const wchar_t* buf) override;
 
-	bool operator>(const Interface& i2) override;
-	bool operator<(const Interface& i2) override;
+	bool operator>(const Entity& i2) override;
+	bool operator<(const Entity& i2) override;
 
 protected:
 	void CleanWcin();

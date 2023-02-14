@@ -1,7 +1,7 @@
-#include "journal.h"
+#include "Journal.h"
 
 Journal::Journal(const wchar_t autor_[STDBUF_SIZE], const wchar_t name_[STDBUF_SIZE],
-	theme_enum::Theme theme_, int circulation_, int release_year_)
+                 ThemeEnum::Theme theme_, int circulation_, int release_year_)
 {
 	this->theme = theme_;
 	this->circulation = circulation_;
@@ -66,7 +66,7 @@ Journal::~Journal()
 {
 	delete this->autor;
 	delete this->name;
-	theme = theme_enum::Theme::OTHER;
+	theme = ThemeEnum::Theme::OTHER;
 	circulation = -1;
 	release_year = -1;
 }
@@ -96,11 +96,11 @@ void Journal::Input()
 	CleanWcin();
 	std::wcin.getline(this->autor, STDBUF_SIZE);
 
-	std::wcout << theme_enum::get_description() << L"Enter theme: ";
+	std::wcout << ThemeEnum::get_description() << L"Enter theme: ";
 	wchar_t new_theme[STDBUF_SIZE];
 	CleanWcin();
 	std::wcin.getline(new_theme, STDBUF_SIZE);
-	this->theme = theme_enum::from_wchars(new_theme);
+	this->theme = ThemeEnum::from_wchars(new_theme);
 
 	std::wcout << L"Enter circulation (number): ";
 	std::wcin >> this->circulation;
@@ -117,7 +117,7 @@ void Journal::Output()
 
 	std::wcout << L"Autor - " << this->autor << std::endl;
 
-	std::wcout << L"Theme - " << theme_enum::to_wchars(this->theme) << std::endl;
+	std::wcout << L"Theme - " << ThemeEnum::to_wchars(this->theme) << std::endl;
 
 	std::wcout << L"Circulation - " << this->circulation << std::endl;
 
@@ -131,7 +131,7 @@ void Journal::Serialize(wchar_t* buf)
 
 	Json::SetJsonValue(buf, L"name", this->name);
 	Json::SetJsonValue(buf, L"autor", this->autor);
-	Json::SetJsonValue(buf, L"theme", theme_enum::to_wchars(this->theme));
+	Json::SetJsonValue(buf, L"theme", ThemeEnum::to_wchars(this->theme));
 	Json::SetJsonValue(buf, L"circulation", std::to_wstring(this->circulation).c_str());
 	Json::SetJsonValue(buf, L"release_year", std::to_wstring(this->release_year).c_str());
 
@@ -149,20 +149,20 @@ void Journal::Deserialize(const wchar_t* buf)
 	std::wstring value2 = Json::GetJsonValue(buf_str, L"name").c_str();
 	wcscpy(this->name, value2.c_str());
 
-	this->theme = theme_enum::from_wchars(Json::GetJsonValue(buf_str, L"theme").c_str());
+	this->theme = ThemeEnum::from_wchars(Json::GetJsonValue(buf_str, L"theme").c_str());
 
 	this->circulation = std::stoi(Json::GetJsonValue(buf_str, L"circulation"));
 
 	this->release_year = std::stoi(Json::GetJsonValue(buf_str, L"release_year"));
 }
 
-bool Journal::operator>( const Interface& i2)
+bool Journal::operator>( const Entity& i2)
 {
 	const Journal& j2 = (const Journal&) i2;
 	return this->circulation > j2.circulation;
 }
 
-bool Journal::operator<(const Interface& i2)
+bool Journal::operator<(const Entity& i2)
 {
 	const Journal& j2 = (const Journal&)i2;
 	return this->circulation < j2.circulation;

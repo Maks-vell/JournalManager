@@ -31,24 +31,27 @@
     <Filter Include="Файлы заголовков\Service">
       <UniqueIdentifier>{170d9b3a-aa97-4f07-ad13-a2e1cde55b62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\Manager">
+      <UniqueIdentifier>{31bee144-56da-4355-89c1-9410c3d518f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="theme_enum.cpp">
+    <ClCompile Include="ThemeEnum.cpp">
       <Filter>Файлы ресурсов\enum</Filter>
     </ClCompile>
-    <ClCompile Include="journal.cpp">
+    <ClCompile Include="Journal.cpp">
       <Filter>Файлы ресурсов\entity</Filter>
     </ClCompile>
-    <ClCompile Include="limited_journal.cpp">
+    <ClCompile Include="LimitedJournal.cpp">
       <Filter>Файлы ресурсов\entity</Filter>
     </ClCompile>
-    <ClCompile Include="psu_journal.cpp">
+    <ClCompile Include="PsuJournal.cpp">
       <Filter>Файлы ресурсов\entity</Filter>
     </ClCompile>
-    <ClCompile Include="special_journal.cpp">
+    <ClCompile Include="SpecialJournal.cpp">
       <Filter>Файлы ресурсов\entity</Filter>
     </ClCompile>
     <ClCompile Include="User.cpp">
@@ -59,38 +62,41 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="theme_enum.h">
+    <ClInclude Include="ThemeEnum.h">
       <Filter>Файлы заголовков\enum</Filter>
     </ClInclude>
-    <ClInclude Include="journal.h">
+    <ClInclude Include="Journal.h">
       <Filter>Файлы заголовков\entity</Filter>
     </ClInclude>
-    <ClInclude Include="limited_journal.h">
+    <ClInclude Include="LimitedJournal.h">
       <Filter>Файлы заголовков\entity</Filter>
     </ClInclude>
-    <ClInclude Include="special_journal.h">
+    <ClInclude Include="SpecialJournal.h">
       <Filter>Файлы заголовков\entity</Filter>
     </ClInclude>
-    <ClInclude Include="psu_journal.h">
+    <ClInclude Include="PsuJournal.h">
       <Filter>Файлы заголовков\entity</Filter>
     </ClInclude>
-    <ClInclude Include="interface.h">
+    <ClInclude Include="Entity.h">
       <Filter>Файлы заголовков\entity</Filter>
     </ClInclude>
     <ClInclude Include="Json.h">
       <Filter>Файлы заголовков\lib</Filter>
     </ClInclude>
-    <ClInclude Include="Serde.h">
+    <ClInclude Include="SerDe.h">
       <Filter>Файлы заголовков\lib</Filter>
     </ClInclude>
-    <ClInclude Include="dek.h">
+    <ClInclude Include="Dek.h">
       <Filter>Файлы заголовков\lib</Filter>
-    </ClInclude>
-    <ClInclude Include="AuthService.h">
-      <Filter>Файлы заголовков\Service</Filter>
     </ClInclude>
     <ClInclude Include="User.h">
       <Filter>Файлы заголовков\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceManager.h">
+      <Filter>Файлы заголовков\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="AuthService.h">
+      <Filter>Файлы заголовков\Service</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

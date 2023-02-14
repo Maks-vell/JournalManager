@@ -3,13 +3,13 @@
 #include "Service.h"
 
 #include "Json.h"
-#include "Serde.h"
-#include "dek.h"
+#include "SerDe.h"
+#include "Dek.h"
 
 
 #define BUFSIZE 1000
 
-class AuthService : Service
+class AuthService : public Service
 {
 private:
 	Dek<User> db;

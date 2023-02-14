@@ -1,10 +1,10 @@
 #pragma once
 
-#include "interface.h"
+#include "Entity.h"
 #include "Journal.h"
-#include "limited_journal.h"
-#include "special_journal.h"
-#include "psu_journal.h"
+#include "LimitedJournal.h"
+#include "SpecialJournal.h"
+#include "PsuJournal.h"
 #include "stdio.h"
 #include "Json.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream> 
 
-namespace theme_enum
+namespace ThemeEnum
 {
 	enum Theme
 	{

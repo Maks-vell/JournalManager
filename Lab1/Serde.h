@@ -1,12 +1,12 @@
 #pragma once
 #include <string>
 #include "Json.h"
-#include "dek.h"
+#include "Dek.h"
 
-#include "journal.h"
-#include "limited_journal.h"
-#include "psu_journal.h"
-#include "special_journal.h"
+#include "Journal.h"
+#include "LimitedJournal.h"
+#include "PsuJournal.h"
+#include "SpecialJournal.h"
 #include "User.h"
 
 template <typename TYPE>

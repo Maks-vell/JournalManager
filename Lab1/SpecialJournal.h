@@ -1,6 +1,6 @@
 #pragma once
 
-#include "journal.h"
+#include "Journal.h"
 
 class SpecialJournal : public Journal
 {
@@ -10,7 +10,7 @@ protected:
 
 public:
 	SpecialJournal(const wchar_t autor_[STDBUF_SIZE] = NULL, const wchar_t name_[STDBUF_SIZE] = NULL,
-		theme_enum::Theme theme_ = theme_enum::Theme::OTHER, int circulation_ = 0, int release_year_ = -1,
+		ThemeEnum::Theme theme_ = ThemeEnum::Theme::OTHER, int circulation_ = 0, int release_year_ = -1,
 		const wchar_t special_info_[STDBUF_SIZE] = NULL);
 
 	SpecialJournal(SpecialJournal& journal_copy);

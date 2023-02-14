@@ -3,46 +3,43 @@
 #include <windows.h>
 #include <locale>
 
-#include "AuthService.h"
-#include "Serde.h"
+#include "SerDe.h"
+#include "ServiceManager.h"
 
-#include "limited_journal.h"
-#include  "psu_journal.h"
-#include "special_journal.h"
-#include "dek.h"
+#include "LimitedJournal.h"
+#include  "PsuJournal.h"
+#include "SpecialJournal.h"
 
-static AuthService authService;
+using namespace std;
 
 #define SAVING_FILE L"save.txt"
 #define BUFSIZE 1000
 
-SerDe<Interface> serde;
-
-using namespace std;
-
 void StartInfo();
-void ServiceBoot();
-Dek<Interface>* CreateDek();
-void ViewDB(Dek<Interface>* dek);
-Interface* CreateJournal();
-Dek<Interface>* LoadJournal(const wchar_t file_name[]);
+Dek<Entity>* CreateDek();
+void ViewDB(Dek<Entity>* dek);
+Entity* CreateJournal();
+Dek<Entity>* LoadJournal(const wchar_t file_name[]);
 void Auth();
-
 template <typename TYPE>
 bool comp_more(TYPE a, TYPE b);
-
 template <typename TYPE>
 bool comp_less(TYPE a, TYPE b);
+
+static ServiceManager service_manager;
+
+
+SerDe<Entity> serde;
 
 
 int wmain() {
 	setlocale(LC_ALL, "");
-	ServiceBoot();
+
+	service_manager.ServiceBoot();
 
 	Auth();
-
 	StartInfo();
-	Dek<Interface>* dek = CreateDek();
+	Dek<Entity>* dek = CreateDek();
 	ViewDB(dek);
 
 	wchar_t command[STDBUF_SIZE] = L" ";
@@ -62,7 +59,7 @@ int wmain() {
 		// определение введенной команды
 		if (wcscmp(command, L"push") == 0)
 		{
-			Interface* new_jrl = CreateJournal();
+			Entity* new_jrl = CreateJournal();
 			if (new_jrl != NULL) dek->PushFirst(new_jrl);
 			else is_succes = false;
 		}
@@ -163,11 +160,6 @@ int wmain() {
 	return 0;
 }
 
-void ServiceBoot()
-{
-	authService.Boot();
-}
-
 void Auth()
 {
 	wcout << L"\t \t \t ***Authorization***\n\n";
@@ -180,7 +172,7 @@ void Auth()
 
 		wchar_t name[STDBUF_SIZE] = L" " ;
 		wchar_t pass[STDBUF_SIZE] = L" " ;
-		if (answer != L"y")
+		if (answer != std::wstring(L"y"))
 		{
 			wcout << L"Registration \n";
 			wcout << L"Enter the name \n";
@@ -224,9 +216,9 @@ void StartInfo()
 		<< L"e , exit - exit, data will be deleted \n \n";
 }
 
-Dek<Interface>* LoadJournal(const wchar_t file_name[])
+Dek<Entity>* LoadJournal(const wchar_t file_name[])
 {
-	Dek<Interface>* dek = new Dek<Interface>;	// новый список журналов
+	Dek<Entity>* dek = new Dek<Entity>;	// новый список журналов
 	wchar_t buf[BUFSIZE] = L"";
 
 	HANDLE file = CreateFile(file_name,
@@ -256,7 +248,7 @@ Dek<Interface>* LoadJournal(const wchar_t file_name[])
 	return dek;
 }
 
-Dek<Interface>* CreateDek()
+Dek<Entity>* CreateDek()
 {
 	wcout << L"Load data? [y/n] \n";
 	wchar_t answer[100] = L"";
@@ -273,9 +265,9 @@ Dek<Interface>* CreateDek()
 
 	wcout << L"\n \t \t \t Creating new journals \n";
 
-	Dek<Interface>* dek = new Dek<Interface>;
+	Dek<Entity>* dek = new Dek<Entity>;
 	wchar_t jrl_type = L' ';
-	Interface* new_jrl = NULL;
+	Entity* new_jrl = NULL;
 
 	// создаем каждый журнал
 	for (int i = 1; i < cnt + 1; i++)
@@ -292,7 +284,7 @@ Dek<Interface>* CreateDek()
 	return dek;
 }
 
-void ViewDB(Dek<Interface>* dek)
+void ViewDB(Dek<Entity>* dek)
 {
 	wcout << L"\n \t \t \t List of journals \n";
 	for (int i = 0; i < dek->GetCnt(); i++)
@@ -302,12 +294,12 @@ void ViewDB(Dek<Interface>* dek)
 	}
 }
 
-Interface* CreateJournal()
+Entity* CreateJournal()
 {
 	wchar_t jrl_type[STDBUF_SIZE] = L" ";
 	wcout << L"\n Enter the type of journal: ";
 	wcin >> jrl_type;
-	Interface* new_jrl = 0;
+	Entity* new_jrl = 0;
 
 	//создаем журнал согласно типу
 	if (wcscmp(jrl_type, L"limited") == 0) new_jrl = new LimitedJournal;

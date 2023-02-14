@@ -1,8 +1,8 @@
-#include "special_journal.h"
+#include "SpecialJournal.h"
 
 SpecialJournal::SpecialJournal(const wchar_t autor_[STDBUF_SIZE], const wchar_t name_[STDBUF_SIZE],
-                               theme_enum::Theme theme_, int circulation_, int release_year_,
-	const wchar_t special_info_[STDBUF_SIZE]) :
+                               ThemeEnum::Theme theme_, int circulation_, int release_year_,
+                               const wchar_t special_info_[STDBUF_SIZE]) :
 	Journal(autor_, name_, theme_, circulation_, release_year_)
 {
 	this->special_info = new wchar_t[STDBUF_SIZE];
@@ -61,7 +61,7 @@ void SpecialJournal::Serialize(wchar_t* buf)
 
 	Json::SetJsonValue(buf, L"name", this->name);
 	Json::SetJsonValue(buf, L"autor", this->autor);
-	Json::SetJsonValue(buf, L"theme", theme_enum::to_wchars(this->theme));
+	Json::SetJsonValue(buf, L"theme", ThemeEnum::to_wchars(this->theme));
 	Json::SetJsonValue(buf, L"circulation", std::to_wstring(this->circulation).c_str());
 	Json::SetJsonValue(buf, L"release_year", std::to_wstring(this->release_year).c_str());
 	Json::SetJsonValue(buf, L"special_info", this->special_info);
@@ -80,7 +80,7 @@ void SpecialJournal::Deserialize(const wchar_t* buf)
 	std::wstring value2 = Json::GetJsonValue(buf_str, L"name").c_str();
 	wcscpy(this->name, value2.c_str());
 
-	this->theme = theme_enum::from_wchars(Json::GetJsonValue(buf_str, L"theme").c_str());
+	this->theme = ThemeEnum::from_wchars(Json::GetJsonValue(buf_str, L"theme").c_str());
 
 	this->circulation = std::stoi(Json::GetJsonValue(buf_str, L"circulation"));
 
