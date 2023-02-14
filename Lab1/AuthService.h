@@ -8,7 +8,6 @@
 
 
 #define BUFSIZE 1000
-#define DB_FILE L"Users.txt"
 
 class AuthService : Service
 {
@@ -21,7 +20,7 @@ public:
 	{
 		wchar_t buf[BUFSIZE] = L"";
 
-		HANDLE file = CreateFile(DB_FILE,
+		HANDLE file = CreateFile(L"Users.txt",
 			GENERIC_READ,
 			FILE_SHARE_WRITE,
 			NULL,
@@ -80,7 +79,7 @@ public:
 		wchar_t* buf = new wchar_t[BUFSIZE];
 		wcscpy(buf, L" ");
 		serde.SerializeFromDek(buf, &db);
-		Json::WriteBufToFile(DB_FILE, buf);
+		Json::WriteBufToFile(L"Users.txt", buf);
 
 		delete[] buf;
 		return true;

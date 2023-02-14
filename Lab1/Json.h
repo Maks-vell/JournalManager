@@ -106,9 +106,9 @@ namespace Json
 
 	bool WriteBufToFile(const wchar_t file_name[], const wchar_t buf[])
 	{
-		HANDLE file = CreateFile(L"User.txt",
+		HANDLE file = CreateFile(file_name,
 			GENERIC_WRITE,
-			FILE_SHARE_WRITE,
+			FILE_SHARE_WRITE | FILE_SHARE_READ,
 			NULL,
 			CREATE_ALWAYS,
 			FILE_ATTRIBUTE_NORMAL,
@@ -134,4 +134,5 @@ namespace Json
 
 		return true;
 	}
+	
 }
