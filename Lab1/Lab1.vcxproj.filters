@@ -98,5 +98,11 @@
     <ClInclude Include="AuthService.h">
       <Filter>Файлы заголовков\Service</Filter>
     </ClInclude>
+    <ClInclude Include="UserService.h">
+      <Filter>Файлы заголовков\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Файлы заголовков\lib</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

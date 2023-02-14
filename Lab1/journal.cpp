@@ -1,5 +1,7 @@
 #include "Journal.h"
 
+#include "util.h"
+
 Journal::Journal(const wchar_t autor_[STDBUF_SIZE], const wchar_t name_[STDBUF_SIZE],
                  ThemeEnum::Theme theme_, int circulation_, int release_year_)
 {
@@ -71,34 +73,22 @@ Journal::~Journal()
 	release_year = -1;
 }
 
-void Journal::CleanWcin()
-{
-	if (char(std::wcin.peek()) == '\n')
-		std::wcin.ignore();
-
-	if (std::wcin.fail())
-	{
-		std::wcin.clear();
-		std::wcin.ignore(32767, '\n');
-	}
-}
-
 void Journal::Input()
 {
 	std::wcout << L"Enter data about this journal \n";
 
 	std::wcout << L"Enter name (string): ";
-	CleanWcin();
+	util::CleanWcin();
 	std::wcin.getline(this->name, STDBUF_SIZE);
 
 
 	std::wcout << L"Enter autor (string): ";
-	CleanWcin();
+	util::CleanWcin();
 	std::wcin.getline(this->autor, STDBUF_SIZE);
 
 	std::wcout << ThemeEnum::get_description() << L"Enter theme: ";
 	wchar_t new_theme[STDBUF_SIZE];
-	CleanWcin();
+	util::CleanWcin();
 	std::wcin.getline(new_theme, STDBUF_SIZE);
 	this->theme = ThemeEnum::from_wchars(new_theme);
 
@@ -132,8 +122,8 @@ void Journal::Serialize(wchar_t* buf)
 	Json::SetJsonValue(buf, L"name", this->name);
 	Json::SetJsonValue(buf, L"autor", this->autor);
 	Json::SetJsonValue(buf, L"theme", ThemeEnum::to_wchars(this->theme));
-	Json::SetJsonValue(buf, L"circulation", std::to_wstring(this->circulation).c_str());
-	Json::SetJsonValue(buf, L"release_year", std::to_wstring(this->release_year).c_str());
+	Json::SetJsonValue(buf, L"circulation", util::to_wstring(this->circulation).c_str());
+	Json::SetJsonValue(buf, L"release_year", util::to_wstring(this->release_year).c_str());
 
 	Json::SetJsonEndTag(buf);
 }

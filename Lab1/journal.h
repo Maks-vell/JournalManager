@@ -41,7 +41,6 @@ public:
 	bool operator<(const Entity& i2) override;
 
 protected:
-	void CleanWcin();
 
 	int getAge() const
 	{
@@ -51,7 +50,6 @@ protected:
 private:
 	static int get_current_year()
 	{
-
 		time_t t = time(nullptr);
 		tm* now = localtime(&t);
 
@@ -62,5 +60,4 @@ private:
 			return 0;
 		}
 	}
-
 };

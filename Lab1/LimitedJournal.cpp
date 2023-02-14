@@ -1,5 +1,7 @@
 #include "LimitedJournal.h"
 
+#include "util.h"
+
 LimitedJournal::LimitedJournal(const wchar_t autor_[STDBUF_SIZE], const wchar_t name_[STDBUF_SIZE],
                                ThemeEnum::Theme theme_, int circulation_, int release_year_, int limited_edition_):
 Journal(autor_, name_, theme_, circulation_, release_year_)
@@ -41,9 +43,9 @@ void LimitedJournal::Serialize(wchar_t* buf)
 	Json::SetJsonValue(buf, L"name", this->name);
 	Json::SetJsonValue(buf, L"autor", this->autor);
 	Json::SetJsonValue(buf, L"theme", ThemeEnum::to_wchars(this->theme));
-	Json::SetJsonValue(buf, L"circulation", std::to_wstring(this->circulation).c_str());
-	Json::SetJsonValue(buf, L"release_year", std::to_wstring(this->release_year).c_str());
-	Json::SetJsonValue(buf, L"limited_edition", std::to_wstring(this->limited_edition).c_str());
+	Json::SetJsonValue(buf, L"circulation", util::to_wstring(this->circulation).c_str());
+	Json::SetJsonValue(buf, L"release_year", util::to_wstring(this->release_year).c_str());
+	Json::SetJsonValue(buf, L"limited_edition", util::to_wstring(this->limited_edition).c_str());
 
 	Json::SetJsonEndTag(buf);
 }
