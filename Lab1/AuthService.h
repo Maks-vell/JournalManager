@@ -1,6 +1,9 @@
+#pragma once
+
 #include <string>
 #include "windows.h"
 #include "Service.h"
+#include "ServiceManager.h"
 
 #include "Json.h"
 #include "SerDe.h"
@@ -8,11 +11,12 @@
 
 
 #define BUFSIZE 1000
+#define AUTH_FILE L"Auth.txt"
 
 class AuthService : public Service
 {
 private:
-	Dek<User> db;
+	Dek<User> auth_dek;
 	SerDe<User> serde;
 
 public:
@@ -20,7 +24,7 @@ public:
 	{
 		wchar_t buf[BUFSIZE] = L"";
 
-		HANDLE file = CreateFile(L"Users.txt",
+		HANDLE file = CreateFile(AUTH_FILE,
 			GENERIC_READ,
 			FILE_SHARE_WRITE,
 			NULL,
@@ -41,33 +45,40 @@ public:
 			&bytes_read,
 			NULL);
 
-		serde.UserDeserializeToDek(buf, &db);
+		serde.UserDeserializeToDek(buf, &auth_dek);
 
+	}
+
+	void UnBoot() override
+	{
+		
 	}
 
 	bool LogIn(const wchar_t* name, const wchar_t* pass)
 	{
-		if (db.GetCnt() > 0)
+		if (auth_dek.GetCnt() > 0)
 		{
-			for (int i = 0; i < db.GetCnt(); i++)
+			for (int i = 0; i < auth_dek.GetCnt(); i++)
 			{
-				User* user = (User*)db.GetNext();
-				if (wcscmp(user->name, name) == 0 && wcscmp(user->pass, pass) ==0)
+				User* user = (User*)auth_dek.GetNext();
+				if (wcscmp(user->name, name) == 0 && wcscmp(user->pass, pass) == 0)
 				{
+					userService->SetCurrentUser(user);
 					return true;
 				}
 			}
 		}
+
 		return false;
 	}
 
 	bool SignIn(const wchar_t* name, const wchar_t* pass)
 	{
-		if (db.GetCnt() > 0)
+		if (auth_dek.GetCnt() > 0)
 		{
-			for (int i = 0; i < db.GetCnt(); i++)
+			for (int i = 0; i < auth_dek.GetCnt(); i++)
 			{
-				User* user = db.GetNext();
+				User* user = auth_dek.GetNext();
 				if (wcscmp(user->name, name) == 0)
 				{
 					return false;
@@ -75,11 +86,11 @@ public:
 			}
 		}
 
-		db.PushFirst(new User(name, pass));
+		auth_dek.PushFirst(new User(name, pass));
 		wchar_t* buf = new wchar_t[BUFSIZE];
 		wcscpy(buf, L" ");
-		serde.SerializeFromDek(buf, &db);
-		Json::WriteBufToFile(L"Users.txt", buf);
+		serde.SerializeFromDek(buf, &auth_dek);
+		Json::WriteBufToFile(AUTH_FILE, buf);
 
 		delete[] buf;
 		return true;

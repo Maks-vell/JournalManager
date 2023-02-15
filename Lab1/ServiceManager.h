@@ -1,8 +1,11 @@
 #pragma once
 #include "AuthService.h"
 #include "Dek.h"
+#include "Service.h"
+#include "UserService.h"
 
-static AuthService authService;
+static AuthService auth_service;
+static UserService user_service;
 
 class ServiceManager
 {
@@ -11,12 +14,12 @@ private:
 public:
 	void ServiceBoot()
 	{
-		service_dek.PushFirst(&authService);
+		service_dek.PushFirst(&auth_service);
+		service_dek.PushFirst(&user_service);
 
 		for (int i = 0; i < service_dek.GetCnt(); i++)
 		{
 			service_dek.GetNext()->Boot();
-			
 		}
 	}
 };

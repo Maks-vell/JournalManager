@@ -13,6 +13,7 @@ template <typename TYPE>
 class SerDe
 {
 public:
+	//сериализует журналы из json буфера в дек
 	void JournalDeserializeToDek(wchar_t* buf, Dek<TYPE>* dek)
 	{
 		int count_ent = 0;
@@ -51,6 +52,7 @@ public:
 		delete[] entitys;
 	}
 
+	//сериализует пользователей из json буфера в дек
 	void UserDeserializeToDek(wchar_t* buf, Dek<TYPE>* dek)
 	{
 		int count_ent = 0;
@@ -69,6 +71,7 @@ public:
 		delete[] entitys;
 	}
 
+	//десериализует данные из дека в буфер в json
 	void SerializeFromDek(wchar_t* buf, Dek<TYPE>* dek)
 	{
 		for (int i = 0; i < dek->GetCnt(); i++)

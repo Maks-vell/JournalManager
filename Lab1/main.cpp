@@ -36,7 +36,7 @@ int wmain() {
 	setlocale(LC_ALL, "");
 
 	service_manager.ServiceBoot();
-
+	wcout << L"Last modification by " << user_service.GetLastUser().name << endl;
 	Auth();
 	StartInfo();
 	Dek<Entity>* dek = CreateDek();
@@ -179,7 +179,7 @@ void Auth()
 			wcin >> name;
 			wcout << L"Enter the password \n";
 			wcin >> pass;
-			if (!authService.SignIn(name, pass))
+			if (!auth_service.SignIn(name, pass))
 			{
 				wcout << L"Alredy exists \n";
 			}
@@ -190,7 +190,7 @@ void Auth()
 		wcin >> name;
 		wcout << L"Enter the password \n";
 		wcin >> pass;
-		if(!authService.LogIn(name, pass))
+		if(!auth_service.LogIn(name, pass))
 		{
 			wcout << L"Invalid login or password \n";
 		}
