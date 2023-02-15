@@ -41,6 +41,8 @@ public:
 
 		serde.UserDeserializeToDek(buf, &history_user);
 		history_user.PushFirst(&current_user);
+
+		CloseHandle(file);
 	}
 
 	void UnBoot() override

@@ -3,7 +3,6 @@
 #include <string>
 #include "windows.h"
 #include "Service.h"
-#include "ServiceManager.h"
 
 #include "Json.h"
 #include "SerDe.h"
@@ -46,7 +45,7 @@ public:
 			NULL);
 
 		serde.UserDeserializeToDek(buf, &auth_dek);
-
+		CloseHandle(file);
 	}
 
 	void UnBoot() override
@@ -63,7 +62,7 @@ public:
 				User* user = (User*)auth_dek.GetNext();
 				if (wcscmp(user->name, name) == 0 && wcscmp(user->pass, pass) == 0)
 				{
-					userService->SetCurrentUser(user);
+					//user_service->SetCurrentUser(user);
 					return true;
 				}
 			}

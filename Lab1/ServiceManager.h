@@ -1,11 +1,14 @@
 #pragma once
-#include "AuthService.h"
+
 #include "Dek.h"
 #include "Service.h"
 #include "UserService.h"
+#include "AuthService.h"
+
 
 static AuthService auth_service;
 static UserService user_service;
+
 
 class ServiceManager
 {
