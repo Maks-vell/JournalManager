@@ -35,6 +35,34 @@ SerDe<Entity> serde;
 int wmain() {
 	setlocale(LC_ALL, "");
 
+	// TEST
+	wcout << L"DEK TEST \n";
+	Dek<int> dekInt;
+	int a = 1, b = 2, c = 3;
+	dekInt.PushFirst(&a);
+	dekInt.PushFirst(&b);
+	dekInt.PushFirst(&c);
+	for(int i = 0;i< 3; i++)
+	{
+		wcout << *dekInt.GetNext();
+	}
+
+	Dek<int*> dekInt1;
+	int* a1 = new int(1);
+	int* b1 = new int(2);
+	int* c1 = new int(3);
+	dekInt1.PushFirst(&a1);
+	dekInt1.PushFirst(&b1);
+	dekInt1.PushFirst(&c1);
+	for (int i = 0; i < 3; i++)
+	{
+		wcout << **dekInt1.GetNext();
+	}
+	wcout << endl;
+	// TEST
+
+
+
 	service_manager.ServiceBoot();
 	wcout << L"Last modification by " << user_service.GetLastUser().name << endl;
 	Auth();
@@ -108,7 +136,7 @@ int wmain() {
 			wcout << L"Enter the number of first journal:";
 			cin >> i;
 			Journal* left = (Journal*)dek->GetEl(i);
-			wcout << L"Enter the number of first journal:";
+			wcout << L"Enter the number of second journal:";
 			wcin >> i;
 			Journal* right = (Journal*)dek->GetEl(i);
 
@@ -116,7 +144,10 @@ int wmain() {
 			{
 				wcout << L"Circulation first journal more" << endl;
 			}
-			wcout << L"Circulation first journal less" << endl;
+			else
+			{
+				wcout << L"Circulation first journal less" << endl;
+			}
 		}
 
 		else if (wcscmp(command, L"less") == 0)
@@ -132,7 +163,10 @@ int wmain() {
 			{
 				wcout << L"Circulation first journal less" << endl;
 			}
-			wcout << L"Circulation first journal more" << endl;
+			else
+			{
+				wcout << L"Circulation first journal more" << endl;
+			}
 		}
 
 		else if (wcscmp(command, L"exit") == 0 || wcscmp(command, L"e") == 0)
@@ -213,6 +247,7 @@ void StartInfo()
 		<< L"cnt - count of journals \n"
 		<< L"save - save journals \n"
 		<< L"load - load saved journals (all current journals will be removed) \n"
+		<< L"less, more - compare 2 journal \n"
 		<< L"e , exit - exit, data will be deleted \n \n";
 }
 
